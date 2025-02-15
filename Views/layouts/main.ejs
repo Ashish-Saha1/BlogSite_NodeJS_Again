@@ -3,17 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="Description" content=" <%= locals.description %> ">
+    <title> <%= locals.title %> </title>
+    
+    <link rel="stylesheet" href="/CSS/style.css">
 </head>
 <body>
     
-    <%- include('../partials/header.ejs') %>
+    
 
-    <%- body %>
+    <div class="container">
+        <%- include('../partials/header.ejs') %>
 
-    <%- include('../partials/footer.ejs') %>
+        <main class="main">
+            <%- body %>
+        </main>
+        
+        <%- include('../partials/footer.ejs') %>
+
+    </div>
+    
+
+   
 
 
-
+<script src="/JS/index.js"></script>
 </body>
 </html>

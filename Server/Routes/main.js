@@ -3,7 +3,8 @@ const router = express.Router();
 const mongoose = require('mongoose');
 
 
-const Post = require('../models/Post');
+const Post = require('../Models/Post');
+
 
 
 
@@ -15,12 +16,48 @@ const Post = require('../models/Post');
  */
 
 router.get('/', async (req,res)=>{
-    const locals = {
-        title: `Index Page`,
-        description: "This is a Home page of this site"
+    try {
+        const locals = {
+            title: `Index Page`,
+            description: "This is a Home page of this site"
+        }
+
+        const perPage = 10;
+        const page = req.query.page || 1;
+        /**aggregate is used for data sort. filter, transform or complex data handling
+         * here we can use find method instead of aggregate
+         */
+        const data = await Post.aggregate( [ { $sort: {createdAt: -1} }] )
+                                .skip(perPage * page - perPage)
+                                .limit(perPage)
+                                //.exec() You can skip exec method as use await exec is for callback pattern for handling err
+        const count = await Post.countDocuments();
+        const nextPage = parseInt(page) + 1;
+        /**Here nextPage = 2, count = 12, perPage = 10, Math.ceil(12 / 10) 
+         * Result = 2 as Math.celi is rounded up
+         * 2 is equal to nextPage means hasNextPage is True
+         */
+        const hasNextPage = nextPage <= Math.ceil(count / perPage)
+ 
+        
+        res.render('index', {
+            locals,
+            data,
+            nextPage : hasNextPage ? nextPage : null,
+            currentRoute : "/",
+        })
+        
+        
+    } catch (error) {
+        console.log(error);
+        
     }
-    res.render('index', {locals})
 })
+
+
+
+
+
 
 
 

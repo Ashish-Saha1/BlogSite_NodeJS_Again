@@ -243,7 +243,7 @@ img {
     filter: none;
 }
 
-.article-ul:hover {
+.article-ul:hover li{
     filter: blur(3px);
 }
 

@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const {Schema, default: mongoose} = require('mongoose');
 
-const Schema = mongoose.Schema;
+//const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
     title : {
@@ -29,7 +29,9 @@ const postSchema = new Schema({
 });
 
 
+const Post = mongoose.model("Post", postSchema)
+
+module.exports = Post;
 
 
-module.exports = mongoose.model("Post", postSchema)
 

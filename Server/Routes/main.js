@@ -22,7 +22,7 @@ router.get('/', async (req,res)=>{
             description: "This is a Home page of this site"
         }
 
-        const perPage = 10;
+        const perPage = 6;
         const page = req.query.page || 1;
         /**aggregate is used for data sort. filter, transform or complex data handling
          * here we can use find method instead of aggregate
@@ -43,6 +43,7 @@ router.get('/', async (req,res)=>{
         res.render('index', {
             locals,
             data,
+            current : page,
             nextPage : hasNextPage ? nextPage : null,
             currentRoute : "/",
         })
@@ -55,7 +56,29 @@ router.get('/', async (req,res)=>{
 })
 
 
+/**
+ * Get 
+ * Click on title show its body
+ */
+router.get('/post/:id', async (req,res,next)=>{
+    try {
+        const locals = {
+            title: `Post Page`,
+            description: "This is a Post page of this site"
+        }
 
+        const slug = req.params.id;
+        const postData = await Post.findOne({_id : slug})
+
+
+    res.render('post', {
+        locals,
+        postData
+    })
+    } catch (error) {
+        next(error)
+    }
+})
 
 
 

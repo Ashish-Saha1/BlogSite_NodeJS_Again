@@ -232,7 +232,7 @@ img {
 .article-ul li {
     font-size: 24px;
     cursor: pointer;
-    transition: filter 0.1s;
+    transition: filter 0.3s;
 }
 
 .article-ul li:not(:last-child) {

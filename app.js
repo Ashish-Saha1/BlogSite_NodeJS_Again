@@ -15,6 +15,7 @@ const PORT = 5000 || process.env.PORT
 
 //internal imports
 const mainRouter = require('./Server/Routes/main');
+const adminRouter = require('./Server/Routes/admin');
 
 //Database connect with mongoose
     databaseConnect()
@@ -22,8 +23,8 @@ const mainRouter = require('./Server/Routes/main');
 //Layouts
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
-app.set('layout', './layouts/main.ejs');
-
+//app.set('layout', './layouts/main.ejs');
+app.set('layout', './layouts/main.ejs')
 
 //Data Parser
 app.use(express.json());
@@ -35,14 +36,16 @@ app.use(cookieParser())
 app.use(express.static('Public'))
 
 //Routes
-app.use('/', mainRouter)
+app.use('/', mainRouter);
+app.use('/', adminRouter);
 
 
 
 
 //Error Handle
 app.use((req,res,next)=>{
-    next('No Route found')
+    res.status(500).json({NotFound: 'Route not found'})
+    //next('No Route found')
 })
 
 app.use((err,req,res,next)=>{

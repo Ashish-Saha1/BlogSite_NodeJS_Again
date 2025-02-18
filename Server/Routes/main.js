@@ -58,18 +58,17 @@ router.get('/', async (req,res)=>{
 
 /**
  * Get 
- * Click on title show its body
+ * Click on latest post show its body
  */
 router.get('/post/:id', async (req,res,next)=>{
     try {
-        const locals = {
-            title: `Post Page`,
-            description: "This is a Post page of this site"
-        }
-
-        const slug = req.params.id;
+                const slug = req.params.id;
         const postData = await Post.findOne({_id : slug})
 
+        const locals = {
+            title: postData.title,
+            description: "This is a Post page of this site"
+        }
 
     res.render('post', {
         locals,
@@ -95,6 +94,15 @@ router.get('/about', async (req,res,next)=>{
         next(error)
     }
 })
+
+
+
+
+
+
+
+
+
 
 
 

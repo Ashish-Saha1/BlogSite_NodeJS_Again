@@ -37,7 +37,7 @@ app.use(express.static('Public'))
 
 //Routes
 app.use('/', mainRouter);
-app.use('/', adminRouter);
+app.use('/admin', adminRouter);
 
 
 

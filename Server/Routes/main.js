@@ -19,7 +19,8 @@ router.get('/', async (req,res)=>{
     try {
         const locals = {
             title: `Index Page`,
-            description: "This is a Home page of this site"
+            description: "This is a Home page of this site",
+            logoText : `Node JS`
         }
 
         const perPage = 6;

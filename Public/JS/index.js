@@ -28,17 +28,18 @@ searchClose.addEventListener('click', function(){
 })
 
 
-//for(let i of searchBtn){
-   // i.addEventListener('click', function(){
-    // searchBar.style.visibility = "visible";
-    // searchBar.classList.add('open')
-    // this.setAttribute("aria-expanded", "true")
+// for(let i of searchBtn){
+//    i.addEventListener('click', function(){
+//     // searchBar.style.visibility = "visible";
+//     // searchBar.classList.add('open')
+//     // this.setAttribute("aria-expanded", "true")
     
-    //console.log('Helow from i click');
-//})
+//     console.log('Helow from i click');
+//     console.log(searchBar)
+// })
 
     
     
 
 
-//}
+// }

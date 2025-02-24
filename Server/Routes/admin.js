@@ -13,7 +13,7 @@ const adminLayout = "../views/Layouts/admin.ejs";
 /**
  * Admin Route
  * Get Method
- * Register Page
+ * Login Page
  */
 router.get('/login', async (req,res,next)=>{
     try {
@@ -28,6 +28,44 @@ router.get('/login', async (req,res,next)=>{
         layout : adminLayout
     })
     } catch (error) {
+        next(error)
+    }
+})
+
+
+/**
+ * Admin Route
+ * Post Method
+ * Login Page
+ */
+router.post('/login', async (req,res,next)=>{
+    try {
+        const locals = {
+            title: "Admin Dashboard",
+            description: "This is Admin pannel Dashboard Page",
+            logoText : `Admin Pannel`
+        }
+        
+        const user = await User.findOne({username : req.body.username});
+        if(user){
+        const matchedPassword = await bcrypt.compare(req.body.password ,user.password);
+         if(matchedPassword){
+            res.render('Admin/dashboard', {
+                locals,
+                user,
+                layout : adminLayout
+            })
+         } else{
+            res.status(404).json({Mess: `Password not matched`})
+         }  
+        }else{
+            res.status(404).json({Mess: `User not matched`})
+         }  
+        }
+        
+        
+    
+     catch (error) {
         next(error)
     }
 })
@@ -69,14 +107,16 @@ router.post('/register', async (req,res,next)=>{
         email : req.body.email,
         password : hashPassword
     }  
-console.log(inputObj);
 
-    //const userData = await User.create(inputObj)
-            
-    res.render('Admin/register', {
+
+    const userData = await User.create(inputObj)
+        console.log(userData)    
+    // res.render('Admin/register', {
         
-        layout : adminLayout
-    })
+    //     layout : adminLayout
+    // })
+    res.redirect('/Admin/login')
+
     } catch (error) {
         next(error)
     }

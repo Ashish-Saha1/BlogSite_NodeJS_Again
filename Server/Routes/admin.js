@@ -40,35 +40,29 @@ router.get('/login', async (req,res,next)=>{
  */
 router.post('/login', async (req,res,next)=>{
     try {
-        const locals = {
-            title: "Admin Dashboard",
-            description: "This is Admin pannel Dashboard Page",
-            logoText : `Admin Pannel`
-        }
-        
-        const user = await User.findOne({username : req.body.username});
+    
+        const user = await User.findOne({ $or: [ { email:  req.body.username}, {  username:  req.body.username} ] });
         if(user){
         const matchedPassword = await bcrypt.compare(req.body.password ,user.password);
-         if(matchedPassword){
-            res.render('Admin/dashboard', {
-                locals,
-                user,
-                layout : adminLayout
-            })
-         } else{
+        if(matchedPassword){
+
+            res.redirect('/admin/dashboard')
+
+        } else{
             res.status(404).json({Mess: `Password not matched`})
-         }  
+        }  
         }else{
             res.status(404).json({Mess: `User not matched`})
-         }  
+        }  
         }
         
         
     
-     catch (error) {
+    catch (error) {
         next(error)
     }
 })
+
 
 /**
  * Admin Route
@@ -130,7 +124,32 @@ router.get('/dashboard', async (req,res,next)=>{
             description: "This is Admin Page"
         }
 
+    const data = await Post.find();
+
     res.render('Admin/dashboard', {
+        data,
+        locals,
+        layout : adminLayout
+    })
+    } catch (error) {
+        next(error)
+    }
+})
+
+
+
+router.get('/post/:id', async (req,res,next)=>{
+    try {
+        const locals = {
+            title: "Register/LogIn",
+            description: "This is Admin pannel Login/register Page",
+            logoText : `Admin Pannel`
+        }
+    const paramsId = req.params.id;
+    const data = await Post.findOne({_id : paramsId});
+
+    res.render('Admin/post', {
+        data,
         locals,
         layout : adminLayout
     })

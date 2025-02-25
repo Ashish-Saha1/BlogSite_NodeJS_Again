@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require("bcrypt");
+var jwt = require('jsonwebtoken');
 
 const Post = require('../Models/Post');
 const User = require('../Models/User');
-
+const authGurd = require('../Helpers/authGurd')
 /**
  * IMportant Note for views will be small letter & not use require
  */
 const adminLayout = "../views/Layouts/admin.ejs";
+
+
 
 /**
  * Admin Route
@@ -20,7 +23,8 @@ router.get('/login', async (req,res,next)=>{
             const locals = {
             title: "Register/LogIn",
             description: "This is Admin pannel Login/register Page",
-            logoText : `Admin Pannel`
+            logoText : `Admin Pannel`,
+            currentRoute: '/login'
         }
 
     res.render('Admin/login', {
@@ -40,12 +44,13 @@ router.get('/login', async (req,res,next)=>{
  */
 router.post('/login', async (req,res,next)=>{
     try {
-    
+        
         const user = await User.findOne({ $or: [ { email:  req.body.username}, {  username:  req.body.username} ] });
         if(user){
         const matchedPassword = await bcrypt.compare(req.body.password ,user.password);
         if(matchedPassword){
-
+            const token = await jwt.sign({username: user.username, userId : user._id}, process.env.JWT_SECRET, {expiresIn: 60*60});
+            res.cookie('Token', token, {httpOnly: true})
             res.redirect('/admin/dashboard')
 
         } else{
@@ -117,7 +122,7 @@ router.post('/register', async (req,res,next)=>{
 })
 
 
-router.get('/dashboard', async (req,res,next)=>{
+router.get('/dashboard', authGurd, async (req,res,next)=>{
     try {
             const locals = {
             title: "Admin Page",
@@ -125,7 +130,7 @@ router.get('/dashboard', async (req,res,next)=>{
         }
 
     const data = await Post.find();
-
+    
     res.render('Admin/dashboard', {
         data,
         locals,
@@ -159,7 +164,19 @@ router.get('/post/:id', async (req,res,next)=>{
 })
 
 
-
+router.get('/logout', async (req,res,next)=>{
+        try {
+            const token = req.cookies.Token;
+            if(!token){
+                res.status(404).json({Mess: `Cookie not Found`})
+            }        
+            res.clearCookie("Token")
+            res.redirect('/admin/login')
+            
+        } catch (error) {
+            next(error)
+        }
+})
 
 
 

@@ -7,17 +7,25 @@
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/contact">Contact</a></li>
+
+            <!-- below if else to show  li as per condition-->
+             <!-- locals.currentRoute is come from login get method route -->
+            <% if (locals.currentRoute === '/login') { %>
+                <!-- Empty as per logic -->
+            <% } else{ %>   
             <li><a href="/admin/login">Admin Pannel</a></li>
+            <% } %>
+            
         </ul>
     </nav>
 
     <div class="header__button">
         
         <% if (locals.currentRoute === '/login') { %>
-            <a href="/logout">
+            <!-- Empty as per condition -->
+            <!-- <a href="/logout"> </a> -->
                 
-                
-            </a>
+            
         <% } else{ %>
             <button aria-expanded="false" class="searchBtn">
                 Search

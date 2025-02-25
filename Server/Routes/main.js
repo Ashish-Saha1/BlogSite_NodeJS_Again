@@ -97,10 +97,46 @@ router.get('/about', async (req,res,next)=>{
 })
 
 
+/**
+ * Get 
+ * Contact Route or About page
+ */
+router.get('/contact', async (req,res,next)=>{
+    try {
+    res.render('contact')
+    } catch (error) {
+        next(error)
+    }
+})
 
 
 
+/**
+ * Get method
+ * Search bar
+ */
+router.post('/search', async (req,res,next)=>{
+    try {
+                
+        const postData = await Post.find()
 
+        const locals = {
+            title: postData.title,
+            description: "This is a Post page of this site"
+        }
+
+    res.render('searchView', {
+        locals,
+        postData,
+        
+    })
+    } catch (error) {
+        next(error)
+    }
+
+   
+
+})
 
 
 

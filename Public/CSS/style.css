@@ -115,7 +115,7 @@ img {
 }
 
 .header__nav {
-    justify-content: center;
+    justify-content: right;
     display: flex;
     grid-area: menu;
 }

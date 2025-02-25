@@ -18,6 +18,24 @@ const adminLayout = "../views/Layouts/admin.ejs";
  * Get Method
  * Login Page
  */
+// router.get('/login', async (req,res,next)=>{
+//     try {
+//             const locals = {
+//             title: "Register/LogIn",
+//             description: "This is Admin pannel Login/register Page",
+//             logoText : `Admin Pannel`,
+//             currentRoute: '/login'
+//         }
+
+//     res.render('Admin/login', {
+//         locals,
+//         layout : adminLayout
+//     })
+//     } catch (error) {
+//         next(error)
+//     }
+// })
+
 router.get('/login', async (req,res,next)=>{
     try {
             const locals = {
@@ -27,10 +45,15 @@ router.get('/login', async (req,res,next)=>{
             currentRoute: '/login'
         }
 
-    res.render('Admin/login', {
-        locals,
-        layout : adminLayout
-    })
+    if(req.cookies.Token){
+        res.redirect('/admin/dashboard')
+    }else{
+        res.render('Admin/login', {
+            locals,
+            layout : adminLayout
+        })
+    }
+    
     } catch (error) {
         next(error)
     }
@@ -178,6 +201,33 @@ router.get('/logout', async (req,res,next)=>{
         }
 })
 
+
+
+/**Admin
+ * Post method
+ * Search bar
+ */
+// router.post('/search', async (req,res,next)=>{
+//     try {
+                
+//         const adminPostData = await Post.find()
+
+//         const locals = {
+//             title: adminPostData.title,
+//             description: "This is a admin search page of this site"
+//         }
+
+//     res.render('searchView', {
+//         locals,
+//         adminPostData
+//     })
+//     } catch (error) {
+//         next(error)
+//     }
+
+   
+
+// })
 
 
 

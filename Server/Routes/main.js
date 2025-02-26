@@ -90,7 +90,11 @@ router.get('/post/:id', async (req,res,next)=>{
  */
 router.get('/about', async (req,res,next)=>{
     try {
-    res.render('about')
+        const locals = {
+            title: 'About',
+            description: "This is a About page of this site"
+        }
+    res.render('about', {locals})
     } catch (error) {
         next(error)
     }
@@ -103,7 +107,11 @@ router.get('/about', async (req,res,next)=>{
  */
 router.get('/contact', async (req,res,next)=>{
     try {
-    res.render('contact')
+        const locals = {
+            title: 'Contact',
+            description: "This is a Contact page of this site"
+        }
+    res.render('contact', {locals})
     } catch (error) {
         next(error)
     }
@@ -121,7 +129,7 @@ router.post('/search', async (req,res,next)=>{
         const postData = await Post.find()
 
         const locals = {
-            title: postData.title,
+            title: 'Search',
             description: "This is a Post page of this site"
         }
 

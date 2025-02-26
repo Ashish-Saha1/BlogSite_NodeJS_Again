@@ -72,7 +72,7 @@ router.post('/login', async (req,res,next)=>{
         if(user){
         const matchedPassword = await bcrypt.compare(req.body.password ,user.password);
         if(matchedPassword){
-            const token = await jwt.sign({username: user.username, userId : user._id}, process.env.JWT_SECRET, {expiresIn: 60*60});
+            const token = await jwt.sign({username: user.username, userId : user._id, name: user.name}, process.env.JWT_SECRET,);
             res.cookie('Token', token, {httpOnly: true})
             res.redirect('/admin/dashboard')
 
@@ -151,12 +151,16 @@ router.get('/dashboard', authGurd, async (req,res,next)=>{
             title: "Admin Page",
             description: "This is Admin Page"
         }
-
+    const name = req.name;  
+    const username = req.username;  
     const data = await Post.find();
-    
+
     res.render('Admin/dashboard', {
+        name,
+        username,
         data,
         locals,
+        currentRoute : "/dashboard",
         layout : adminLayout
     })
     } catch (error) {

@@ -123,20 +123,48 @@ router.get('/contact', async (req,res,next)=>{
  * Get method
  * Search bar
  */
+// router.post('/search', async (req,res,next)=>{
+//     try {
+                
+//         const postData = await Post.find()
+
+//         const locals = {
+//             title: 'Search',
+//             description: "This is a Post page of this site"
+//         }
+
+//     res.render('searchView', {
+//         locals,
+//         postData,
+        
+//     })
+//     } catch (error) {
+//         next(error)
+//     }
+
+   
+
+// })
+
+
 router.post('/search', async (req,res,next)=>{
     try {
+        
+        const userInput = req.body.searchTerm;
+        const trimUserInput = userInput.replace(/[^\w\s]/g, "");
                 
-        const postData = await Post.find()
+        const postData = await Post.find({ title: new RegExp(trimUserInput, "i") });
 
         const locals = {
             title: 'Search',
             description: "This is a Post page of this site"
         }
+        
 
     res.render('searchView', {
         locals,
         postData,
-        
+        currentRoute : "/chek"
     })
     } catch (error) {
         next(error)

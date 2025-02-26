@@ -14,6 +14,7 @@ const authGurd = async (req,res,next)=>{
             const decode = await jwt.verify(token, process.env.JWT_SECRET) 
             req.userId = decode.userId;
             req.username = decode.username;
+            req.name = decode.name;
             next()
         }
         

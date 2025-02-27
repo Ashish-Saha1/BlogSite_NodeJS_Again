@@ -206,6 +206,35 @@ router.get('/logout', async (req,res,next)=>{
 })
 
 
+router.post('/search', async (req,res,next)=>{
+    try {
+        
+        const userInput = req.body.searchTerm;
+        const trimUserInput = userInput.replace(/[^\w\s]/g, "");
+                
+        const postData = await Post.find({ title: new RegExp(trimUserInput, "i") });
+
+        const locals = {
+            title: 'Search',
+            description: "This is a Post page of this site"
+        }
+        
+
+    res.render('searchViewAdmin', {
+        locals,
+        postData,
+        currentRoute : "/admin/search"
+    })
+    } catch (error) {
+        next(error)
+    }
+
+   
+
+})
+
+
+
 
 /**Admin
  * Post method

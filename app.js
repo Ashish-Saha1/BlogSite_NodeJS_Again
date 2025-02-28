@@ -5,6 +5,13 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const ejs = require('ejs');
 const expressLayouts = require('express-ejs-layouts');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+
+const methodOverride = require('method-override');
+
+
+
 const databaseConnect = require('./Server/Helpers/database');
 
 
@@ -30,6 +37,20 @@ app.set('layout', './layouts/main.ejs')
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser())
+
+
+//Method Override
+app.use(methodOverride('_method'))
+
+// Session 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    store : MongoStore.create({
+        mongoUrl : process.env.MONGODB_URI
+    }),
+  }))
 
 
 //Others

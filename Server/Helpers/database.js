@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 function databaseConnect(){
-    mongoose.connect(`mongodb://localhost/BlogSiteAgain`)
+    mongoose.connect(process.env.MONGODB_URI)
     .then(()=>{
         console.log('Database connect');
         

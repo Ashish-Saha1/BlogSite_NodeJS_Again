@@ -153,7 +153,7 @@ router.get('/dashboard', authGurd, async (req,res,next)=>{
         }
     const name = req.name;  
     const username = req.username;  
-    const data = await Post.find();
+    const data = await Post.aggregate([{$sort: {updatedAt: -1}}]);
 
     res.render('Admin/dashboard', {
         name,
@@ -206,32 +206,113 @@ router.get('/logout', async (req,res,next)=>{
 })
 
 
-router.post('/search', async (req,res,next)=>{
+/**Admin
+ * Get method
+ * Create a new Post render page
+ */
+
+router.get('/add-post', authGurd, async (req,res,next)=>{
     try {
-        
-        const userInput = req.body.searchTerm;
-        const trimUserInput = userInput.replace(/[^\w\s]/g, "");
-                
-        const postData = await Post.find({ title: new RegExp(trimUserInput, "i") });
-
-        const locals = {
-            title: 'Search',
-            description: "This is a Post page of this site"
+            const locals = {
+            title: "Create new post",
+            description: "This is New Post Page"
         }
-        
-
-    res.render('searchViewAdmin', {
+ 
+    res.render('Admin/add-post', {
         locals,
-        postData,
-        currentRoute : "/admin/search"
+        currentRoute : "/add-post",
+        layout : adminLayout
     })
     } catch (error) {
         next(error)
     }
-
-   
-
 })
+
+
+/**Admin
+ * Post method
+ * Create a new Post Submit
+ */
+router.post('/add-post', authGurd, async (req,res,next)=>{
+    try {
+        const {title, body} = req.body;    
+        
+        const data = await Post.create({title,body})
+        
+
+    res.redirect('/admin/dashboard')
+    } catch (error) {
+        next(error)
+    }
+})
+
+
+/**Admin
+ * Get method
+ * Eidt Post 
+ */
+router.get('/edit-post/:id', authGurd, async (req,res,next)=>{
+    try {
+            const locals = {
+            title: "Edit post",
+            description: "This is Edit post Page"
+        }
+            const data = await Post.findOne({_id: req.params.id});
+                    
+    res.render('Admin/edit-post', {
+        data,
+        locals,
+        currentRoute : "/edit-post",
+        layout : adminLayout
+    })
+    } catch (error) {
+        next(error)
+    }
+})
+
+
+/**Admin
+ * Put method
+ * Eidt Post Submit
+ */
+router.put('/edit-post/:id', authGurd, async (req,res,next)=>{
+    try {
+            const locals = {
+            title: "Edit post",
+            description: "This is Edit post Page"
+        }
+            const data = await Post.updateOne(
+                {_id: req.params.id}, {$set: {title: req.body.title, body: req.body.body}});
+                    
+        res.redirect('/admin/dashboard')
+
+    } catch (error) {
+        next(error)
+    }
+})
+
+
+/**Admin
+ * Delete method
+ * Click to delete
+ */
+router.delete('/delete-post/:id', authGurd, async (req,res,next)=>{
+    try {
+            const locals = {
+            title: "Delete post",
+            description: "This is Delete post Page"
+        }
+            const data = await Post.deleteOne({_id: req.params.id});
+                    
+        res.redirect('/admin/dashboard')
+
+    } catch (error) {
+        next(error)
+    }
+})
+
+
+
 
 
 

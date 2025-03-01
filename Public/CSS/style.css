@@ -61,6 +61,8 @@ textarea {
 img {
     width: 100%;
     height: auto;
+    border-radius: 8px;
+    box-shadow: 1px 1px 5px black, -1px -5px 5px black;
 }
 
 /* Layout */

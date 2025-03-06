@@ -94,7 +94,11 @@ router.get('/about', async (req,res,next)=>{
             title: 'About',
             description: "This is a About page of this site"
         }
-    res.render('about', {locals})
+    res.render('about', {
+        locals,
+        currentRoute : "/about",
+
+    })
     } catch (error) {
         next(error)
     }
@@ -111,7 +115,10 @@ router.get('/contact', async (req,res,next)=>{
             title: 'Contact',
             description: "This is a Contact page of this site"
         }
-    res.render('contact', {locals})
+    res.render('contact', {
+        locals,
+        currentRoute : "/contact",
+    })
     } catch (error) {
         next(error)
     }
@@ -164,7 +171,7 @@ router.post('/search', async (req,res,next)=>{
     res.render('searchView', {
         locals,
         postData,
-        currentRoute : "/chek"
+        
     })
     } catch (error) {
         next(error)

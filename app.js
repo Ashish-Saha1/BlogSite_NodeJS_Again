@@ -12,7 +12,7 @@ const methodOverride = require('method-override');
 
 
 
-const databaseConnect = require('./Server/Helpers/database');
+
 
 
 
@@ -23,6 +23,10 @@ const PORT = 5000 || process.env.PORT
 //internal imports
 const mainRouter = require('./Server/Routes/main');
 const adminRouter = require('./Server/Routes/admin');
+const databaseConnect = require('./Server/Helpers/database');
+const {isactiveRoute} = require('./Server/Helpers/activeRouteHelpers');
+
+
 
 //Database connect with mongoose
     databaseConnect()
@@ -38,6 +42,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser())
 
+
+//Local variable setup
+app.locals.isactiveRoute = isactiveRoute;
 
 //Method Override
 app.use(methodOverride('_method'))

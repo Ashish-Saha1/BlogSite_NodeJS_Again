@@ -4,9 +4,9 @@
 
     <nav class="header__nav">
         <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
+            <li><a href="/" class="<%= isactiveRoute('/', currentRoute) %>">Home</a></li>
+            <li><a href="/about" class="<%= isactiveRoute('/about', currentRoute) %>">About</a></li>
+            <li><a href="/contact" class="<%= isactiveRoute('/contact', currentRoute) %>">Contact</a></li>
             <li><a href="/admin/login"> Admin Pannel </a></li>
         </ul>
     </nav>

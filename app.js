@@ -12,13 +12,8 @@ const methodOverride = require('method-override');
 
 
 
-
-
-
-
-
 //Variables
-const PORT = 5000 || process.env.PORT
+const PORT = process.env.PORT || 4000;
 
 //internal imports
 const mainRouter = require('./Server/Routes/main');
@@ -34,7 +29,6 @@ const {isactiveRoute} = require('./Server/Helpers/activeRouteHelpers');
 //Layouts
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
-//app.set('layout', './layouts/main.ejs');
 app.set('layout', './layouts/main.ejs')
 
 //Data Parser
@@ -58,6 +52,9 @@ app.use(session({
         mongoUrl : process.env.MONGODB_URI
     }),
   }))
+
+
+
 
 
 //Others

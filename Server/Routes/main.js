@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 
 const Post = require('../Models/Post');
+//const handleLink = require('../Helpers/pathFinder');
 
 
 
@@ -131,30 +132,34 @@ router.get('/contact', async (req,res,next)=>{
  * Search bar
  */
 // router.post('/search', async (req,res,next)=>{
-//     try {
+        
+//       try {
+        
+//         const userInput = req.body.searchTerm;
+//         const trimUserInput = userInput.replace(/[^\w\s]/g, "");
                 
-//         const postData = await Post.find()
+//         const postData = await Post.find({ title: new RegExp(trimUserInput, "i") });
 
 //         const locals = {
 //             title: 'Search',
 //             description: "This is a Post page of this site"
 //         }
-
-//     res.render('searchView', {
-//         locals,
-//         postData,
         
-//     })
+//         res.render('searchView', {
+//             postData,
+//             locals,
+//             currentRoute : "/contact",
+//         })
+   
+
 //     } catch (error) {
 //         next(error)
 //     }
 
-   
-
 // })
 
 
-router.post('/search', async (req,res,next)=>{
+router.post('/search',  async (req,res,next)=>{
     try {
         
         const userInput = req.body.searchTerm;
@@ -167,12 +172,14 @@ router.post('/search', async (req,res,next)=>{
             description: "This is a Post page of this site"
         }
         
-
-    res.render('searchView', {
-        locals,
-        postData,
+            res.render('searchView', {
+            postData,
+            locals,
+            currentRoute : "/search"
+        })   
         
-    })
+    
+    
     } catch (error) {
         next(error)
     }

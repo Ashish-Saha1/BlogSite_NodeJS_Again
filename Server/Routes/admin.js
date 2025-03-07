@@ -6,6 +6,12 @@ var jwt = require('jsonwebtoken');
 const Post = require('../Models/Post');
 const User = require('../Models/User');
 const authGurd = require('../Helpers/authGurd')
+
+const handleLink = require('../Helpers/pathFinder');
+
+
+
+
 /**
  * IMportant Note for views will be small letter & not use require
  */
@@ -154,6 +160,10 @@ router.get('/dashboard', authGurd, async (req,res,next)=>{
     const name = req.name;  
     const username = req.username;  
     const data = await Post.aggregate([{$sort: {updatedAt: -1}}]);
+
+
+  
+    
 
     res.render('Admin/dashboard', {
         name,
@@ -317,31 +327,7 @@ router.delete('/delete-post/:id', authGurd, async (req,res,next)=>{
 
 
 
-/**Admin
- * Post method
- * Search bar
- */
-// router.post('/search', async (req,res,next)=>{
-//     try {
-                
-//         const adminPostData = await Post.find()
 
-//         const locals = {
-//             title: adminPostData.title,
-//             description: "This is a admin search page of this site"
-//         }
-
-//     res.render('searchView', {
-//         locals,
-//         adminPostData
-//     })
-//     } catch (error) {
-//         next(error)
-//     }
-
-   
-
-// })
 
 
 

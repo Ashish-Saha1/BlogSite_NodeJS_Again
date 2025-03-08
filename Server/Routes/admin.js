@@ -7,7 +7,7 @@ const Post = require('../Models/Post');
 const User = require('../Models/User');
 const authGurd = require('../Helpers/authGurd')
 
-const handleLink = require('../Helpers/pathFinder');
+const pathFinder = require('../Helpers/pathFinder');
 
 
 
@@ -71,7 +71,7 @@ router.get('/login', async (req,res,next)=>{
  * Post Method
  * Login Page
  */
-router.post('/login', async (req,res,next)=>{
+router.post('/login',pathFinder, async (req,res,next)=>{
     try {
         
         const user = await User.findOne({ $or: [ { email:  req.body.username}, {  username:  req.body.username} ] });
@@ -151,7 +151,7 @@ router.post('/register', async (req,res,next)=>{
 })
 
 
-router.get('/dashboard', authGurd, async (req,res,next)=>{
+router.get('/dashboard', authGurd, pathFinder, async (req,res,next)=>{
     try {
             const locals = {
             title: "Admin Page",
@@ -160,10 +160,6 @@ router.get('/dashboard', authGurd, async (req,res,next)=>{
     const name = req.name;  
     const username = req.username;  
     const data = await Post.aggregate([{$sort: {updatedAt: -1}}]);
-
-
-  
-    
 
     res.render('Admin/dashboard', {
         name,
@@ -177,8 +173,6 @@ router.get('/dashboard', authGurd, async (req,res,next)=>{
         next(error)
     }
 })
-
-
 
 router.get('/post/:id', async (req,res,next)=>{
     try {

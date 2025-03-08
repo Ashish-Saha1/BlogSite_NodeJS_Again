@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 
 const Post = require('../Models/Post');
-//const handleLink = require('../Helpers/pathFinder');
+const pathFinder = require('../Helpers/pathFinder');
 
 
 
@@ -16,7 +16,7 @@ const Post = require('../Models/Post');
  * Home Route or index page
  */
 
-router.get('/', async (req,res)=>{
+router.get('/', pathFinder, async (req,res)=>{
     try {
         const locals = {
             title: `Index Page`,
@@ -159,7 +159,7 @@ router.get('/contact', async (req,res,next)=>{
 // })
 
 
-router.post('/search',  async (req,res,next)=>{
+router.post('/search', pathFinder, async (req,res,next)=>{
     try {
         
         const userInput = req.body.searchTerm;

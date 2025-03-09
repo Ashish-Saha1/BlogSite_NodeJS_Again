@@ -64,8 +64,8 @@ router.get('/', pathFinder, async (req,res)=>{
  */
 router.get('/post/:id', async (req,res,next)=>{
     try {
-                const slug = req.params.id;
-        const postData = await Post.findOne({_id : slug})
+        
+        const postData = await Post.findOne({_id : req.params.id})
 
         const locals = {
             title: postData.title,
@@ -73,9 +73,11 @@ router.get('/post/:id', async (req,res,next)=>{
         }
 
     res.render('post', {
-        locals,
-        postData
+        postData: postData,
+        locals: locals,
+        currentRoute : "/post/:id",
     })
+    
     } catch (error) {
         next(error)
     }
@@ -187,6 +189,7 @@ router.post('/search', pathFinder, async (req,res,next)=>{
    
 
 })
+
 
 
 

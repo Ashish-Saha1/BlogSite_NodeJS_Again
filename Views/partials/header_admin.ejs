@@ -1,7 +1,8 @@
 
 <header class="header">
     <a href="#" class="header__logo">Admin Pannel</a>
-
+    <h1><%= locals.currentRoute %></h1>
+   
     <nav class="header__nav">
         <ul>
             <li><a href="/" >Home</a></li>
@@ -9,7 +10,7 @@
             <li><a href="/contact" >Contact</a></li>
 
             <!-- below if else to show  li as per condition-->
-             <!-- locals.currentRoute is come from login get method route -->
+            <!-- locals.currentRoute is come from login get method route -->
             <% if (locals.currentRoute === '/login') { %>
                 <!-- Empty as per logic -->
             <% } else{ %>   

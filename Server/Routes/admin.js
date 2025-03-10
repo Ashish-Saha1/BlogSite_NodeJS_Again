@@ -112,7 +112,8 @@ router.get('/register', async (req,res,next)=>{
 
     res.render('Admin/register', {
         locals,
-        layout : adminLayout
+        layout : adminLayout,
+       
     })
     } catch (error) {
         next(error)
@@ -126,7 +127,7 @@ router.get('/register', async (req,res,next)=>{
  */
 router.post('/register', async (req,res,next)=>{
     try {
-
+        
     const hashPassword = await bcrypt.hash(req.body.password, 10)
 
     const inputObj = {
@@ -135,6 +136,10 @@ router.post('/register', async (req,res,next)=>{
         email : req.body.email,
         password : hashPassword
     }  
+
+    if(!inputObj.name || !inputObj.username || !inputObj.email || inputObj.password !== "" ){
+        return res.status(400).json({ error: "All fields are required" });
+    }
 
 
     const userData = await User.create(inputObj)

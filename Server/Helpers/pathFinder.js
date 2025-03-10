@@ -8,14 +8,15 @@ const myObj = {}
 const pathFinder = (req,res,next) => {
         
     // Store the previous page before updating
-    let previousPage = myObj.lastPage || "No Last page defined";
+    res.locals.previousPage = myObj.lastPage || "No Last page defined";
 
     // Update session with the current page
     myObj.lastPage = req.route.path;
 
     //output += `<h2>${title}</h2> Previous page was: ${previousPage}`;
     
-    console.log("Previous Page:", previousPage);
+    //console.log("Previous Page:", previousPage);
+    
     next()
     
 

@@ -177,7 +177,8 @@ router.post('/search', pathFinder, async (req,res,next)=>{
             res.render('searchView', {
             postData,
             locals,
-            currentRoute : "/search"
+            currentRoute : "/search",
+            previousPage: res.locals.previousPage //for cheking issue
         })   
         
     

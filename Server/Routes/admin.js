@@ -246,11 +246,16 @@ router.get('/add-post', authGurd, async (req,res,next)=>{
 router.post('/add-post', authGurd, async (req,res,next)=>{
     try {
         const {title, body} = req.body;    
-        
-        const data = await Post.create({title,body})
+        if(!title || !body ){
+            res.status(500).json({Mess: "Field is empty"})
+        }
+        else{
+            const data = await Post.create({title,body})
+            res.redirect('/admin/dashboard')
+        }
         
 
-    res.redirect('/admin/dashboard')
+   
     } catch (error) {
         next(error)
     }
